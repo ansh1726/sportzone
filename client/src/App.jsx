@@ -17,7 +17,7 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import OrderSuccess from "./pages/OrderSuccess.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
-import AdminLayout from "./pages/admin/AdminLayout.jsx";
+import AdminLayout from "./pages/Admin/AdminLayout.jsx";
 import AdminDashboard from "./pages/Admin/AdminDashboards.jsx";
 import ManageProducts from "./pages/Admin/ManageProducts.jsx";
 import ManageOrders from "./pages/Admin/ManageOrders.jsx";
