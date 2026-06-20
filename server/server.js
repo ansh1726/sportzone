@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+console.log("CLIENT_URL is:", process.env.CLIENT_URL);
 
 import express from "express";
 import cors from "cors";
