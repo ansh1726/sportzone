@@ -31,7 +31,7 @@ app.use(cors({
   credentials: true,
 }));
 
-app.options("*", cors({
+app.options("*splat", cors({
   origin: allowedOrigins,
   credentials: true,
 }));
