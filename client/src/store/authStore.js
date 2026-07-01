@@ -13,6 +13,7 @@ const useAuthStore = create((set) => ({
         email,
         password,
       });
+      localStorage.setItem("jwt", res.data.token);
       set({ user: res.data });
       toast.success("Account created successfully!");
     } catch (error) {
@@ -23,6 +24,7 @@ const useAuthStore = create((set) => ({
   login: async (email, password) => {
     try {
       const res = await axiosInstance.post("/auth/login", { email, password });
+      localStorage.setItem("jwt", res.data.token);
       set({ user: res.data });
       toast.success("Logged in successfully!");
     } catch (error) {
@@ -33,18 +35,27 @@ const useAuthStore = create((set) => ({
   logout: async () => {
     try {
       await axiosInstance.post("/auth/logout");
+      localStorage.removeItem("jwt");
       set({ user: null });
       toast.success("Logged out successfully!");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Logout failed");
+      localStorage.removeItem("jwt");
+      set({ user: null });
+      toast.success("Logged out successfully!");
     }
   },
 
   checkAuth: async () => {
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      set({ isCheckingAuth: false });
+      return;
+    }
     try {
       const res = await axiosInstance.get("/auth/me");
       set({ user: res.data });
     } catch {
+      localStorage.removeItem("jwt");
       set({ user: null });
     } finally {
       set({ isCheckingAuth: false });
