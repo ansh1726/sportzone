@@ -115,7 +115,7 @@ const ProductDetail = () => {
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             ) : (
               <span className="text-7xl md:text-8xl">{getCategoryIcon(product.category)}</span>
@@ -131,7 +131,7 @@ const ProductDetail = () => {
                     selectedImage === i ? "border-orange-500" : "border-gray-200"
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img src={img} alt="" className="w-full h-full object-contain" />
                 </div>
               ))}
             </div>

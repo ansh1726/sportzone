@@ -75,14 +75,14 @@ const Cart = () => {
             >
               {/* Image */}
               <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-                {item.image ? (
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-2xl md:text-3xl">
-                    {getCategoryIcon(item.product?.category)}
-                  </span>
-                )}
-              </div>
+  {item.image ? (
+    <img src={item.image} alt={item.name} className="w-full h-full object-contain p-1" />
+  ) : (
+    <span className="text-2xl md:text-3xl">
+      {getCategoryIcon(item.product?.category)}
+    </span>
+  )}
+</div>
 
               {/* Info */}
               <div className="flex-1 min-w-0">
