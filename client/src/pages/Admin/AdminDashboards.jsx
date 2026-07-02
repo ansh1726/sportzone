@@ -61,46 +61,46 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 p-6">
-      <div className="mb-6">
-        <h1 className="text-lg font-semibold text-gray-100">Dashboard</h1>
-        <p className="text-sm text-gray-500">Welcome back. Here's what's happening today.</p>
+    <div className="min-h-screen bg-gray-950 p-4 md:p-6">
+      <div className="mb-5 md:mb-6">
+        <h1 className="text-base md:text-lg font-semibold text-gray-100">Dashboard</h1>
+        <p className="text-xs md:text-sm text-gray-500">Welcome back. Here's what's happening today.</p>
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-5 md:mb-6">
         {[
           { icon: "💰", label: "Total Revenue", value: `₹${(stats?.totalRevenue || 0).toLocaleString()}`, color: "bg-orange-500/10" },
           { icon: "🧾", label: "Total Orders", value: stats?.totalOrders || 0, color: "bg-blue-500/10" },
           { icon: "👥", label: "Total Users", value: stats?.totalUsers || 0, color: "bg-green-500/10" },
           { icon: "📦", label: "Total Products", value: stats?.totalProducts || 0, color: "bg-yellow-500/10" },
         ].map((stat) => (
-          <div key={stat.label} className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-            <div className={`w-9 h-9 ${stat.color} rounded-lg flex items-center justify-center text-lg mb-3`}>
+          <div key={stat.label} className="bg-gray-900 border border-gray-800 rounded-xl p-3 md:p-4">
+            <div className={`w-8 h-8 md:w-9 md:h-9 ${stat.color} rounded-lg flex items-center justify-center text-base md:text-lg mb-2 md:mb-3`}>
               {stat.icon}
             </div>
-            <p className="text-xl font-bold text-gray-100">{stat.value}</p>
+            <p className="text-lg md:text-xl font-bold text-gray-100">{stat.value}</p>
             <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
           </div>
         ))}
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 md:mb-6">
         {/* Revenue Chart */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 md:p-5">
           <h2 className="text-sm font-medium text-gray-300 mb-4">Monthly Revenue</h2>
           {chartData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={180}>
+            <ResponsiveContainer width="100%" height={160}>
               <BarChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                 <XAxis
                   dataKey="month"
-                  tick={{ fill: "#64748b", fontSize: 11 }}
+                  tick={{ fill: "#64748b", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fill: "#64748b", fontSize: 11 }}
+                  tick={{ fill: "#64748b", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(v) => `₹${v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`}
@@ -119,14 +119,14 @@ const AdminDashboard = () => {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="h-44 flex items-center justify-center text-gray-600 text-sm">
+            <div className="h-40 flex items-center justify-center text-gray-600 text-sm">
               No revenue data yet
             </div>
           )}
         </div>
 
         {/* Top Products */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 md:p-5">
           <h2 className="text-sm font-medium text-gray-300 mb-4">Top Selling Products</h2>
           {stats?.topProducts?.length > 0 ? (
             <div className="flex flex-col gap-3">
@@ -136,7 +136,7 @@ const AdminDashboard = () => {
                     {index + 1}
                   </div>
                   <p className="text-xs text-gray-300 flex-1 truncate">{product._id}</p>
-                  <div className="w-20 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                  <div className="w-16 md:w-20 h-1.5 bg-gray-800 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-orange-500 rounded-full"
                       style={{ width: `${(product.totalSold / maxSold) * 100}%` }}
@@ -147,7 +147,7 @@ const AdminDashboard = () => {
               ))}
             </div>
           ) : (
-            <div className="h-44 flex items-center justify-center text-gray-600 text-sm">
+            <div className="h-40 flex items-center justify-center text-gray-600 text-sm">
               No sales data yet
             </div>
           )}
@@ -155,7 +155,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Recent Orders */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 md:p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-medium text-gray-300">Recent Orders</h2>
           <button
@@ -165,29 +165,35 @@ const AdminDashboard = () => {
             View all →
           </button>
         </div>
-        <div className="grid grid-cols-[1fr_120px_100px_90px] gap-4 text-xs text-gray-600 font-medium uppercase tracking-wide mb-3">
-          <span>Order ID</span>
-          <span>Customer</span>
-          <span>Amount</span>
-          <span>Status</span>
-        </div>
-        <div className="flex flex-col">
-          {recentOrders.map((order) => (
-            <div
-              key={order._id}
-              className="grid grid-cols-[1fr_120px_100px_90px] gap-4 items-center py-2.5 border-t border-gray-800 text-sm"
-            >
-              <span className="font-mono text-xs text-gray-500">#{order._id.slice(-8)}</span>
-              <span className="text-xs text-gray-300">{order.user?.name || "Unknown"}</span>
-              <span className="text-xs font-medium text-gray-200">₹{order.totalAmount.toLocaleString()}</span>
-              <span className={`text-xs px-2 py-1 rounded-full text-center ${statusColors[order.status]}`}>
-                {order.status}
-              </span>
+
+        {/* Scrollable table on mobile */}
+        <div className="overflow-x-auto">
+          <div className="min-w-[500px]">
+            <div className="grid grid-cols-[1fr_120px_100px_90px] gap-4 text-xs text-gray-600 font-medium uppercase tracking-wide mb-3">
+              <span>Order ID</span>
+              <span>Customer</span>
+              <span>Amount</span>
+              <span>Status</span>
             </div>
-          ))}
-          {recentOrders.length === 0 && (
-            <div className="text-center py-8 text-gray-600 text-sm">No orders yet</div>
-          )}
+            <div className="flex flex-col">
+              {recentOrders.map((order) => (
+                <div
+                  key={order._id}
+                  className="grid grid-cols-[1fr_120px_100px_90px] gap-4 items-center py-2.5 border-t border-gray-800 text-sm"
+                >
+                  <span className="font-mono text-xs text-gray-500">#{order._id.slice(-8)}</span>
+                  <span className="text-xs text-gray-300 truncate">{order.user?.name || "Unknown"}</span>
+                  <span className="text-xs font-medium text-gray-200">₹{order.totalAmount.toLocaleString()}</span>
+                  <span className={`text-xs px-2 py-1 rounded-full text-center ${statusColors[order.status]}`}>
+                    {order.status}
+                  </span>
+                </div>
+              ))}
+              {recentOrders.length === 0 && (
+                <div className="text-center py-8 text-gray-600 text-sm">No orders yet</div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

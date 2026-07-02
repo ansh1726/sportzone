@@ -39,8 +39,8 @@ const Orders = () => {
 
   if (orders.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white border border-gray-200 rounded-xl p-12 text-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 text-center w-full max-w-sm">
           <div className="text-5xl mb-4">📦</div>
           <p className="text-lg font-semibold text-gray-800 mb-2">No orders yet</p>
           <p className="text-sm text-gray-400 mb-6">
@@ -48,7 +48,7 @@ const Orders = () => {
           </p>
           <button
             onClick={() => navigate("/products")}
-            className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition"
+            className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition"
           >
             Start Shopping
           </button>
@@ -58,21 +58,21 @@ const Orders = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-xl font-bold text-gray-800 mb-6">My Orders</h1>
+    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+      <h1 className="text-lg md:text-xl font-bold text-gray-800 mb-5 md:mb-6">My Orders</h1>
 
-      <div className="flex flex-col gap-4 max-w-3xl">
+      <div className="flex flex-col gap-4 max-w-3xl mx-auto md:mx-0">
         {orders.map((order) => (
           <div
             key={order._id}
             onClick={() => navigate("/order-success", { state: { order } })}
-            className="bg-white border border-gray-200 rounded-xl p-5 cursor-pointer hover:shadow-md hover:border-orange-300 transition"
+            className="bg-white border border-gray-200 rounded-xl p-4 md:p-5 cursor-pointer hover:shadow-md hover:border-orange-300 transition"
           >
             {/* Header */}
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-start justify-between mb-3 gap-2">
               <div>
                 <p className="text-xs text-gray-400 font-mono">#{order._id.slice(-8)}</p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-gray-400 mt-0.5">
                   {new Date(order.createdAt).toLocaleDateString("en-IN", {
                     day: "numeric",
                     month: "short",
@@ -80,27 +80,25 @@ const Orders = () => {
                   })}
                 </p>
               </div>
-              <span className={`text-xs px-3 py-1 rounded-full font-medium ${statusColors[order.status]}`}>
+              <span className={`text-xs px-2.5 py-1 rounded-full font-medium flex-shrink-0 ${statusColors[order.status]}`}>
                 {order.status}
               </span>
             </div>
 
             {/* Items Preview */}
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
               {order.items.slice(0, 4).map((item, i) => (
                 <div
                   key={i}
-                  className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xl overflow-hidden flex-shrink-0"
+                  className="w-11 h-11 md:w-12 md:h-12 bg-gray-100 rounded-lg flex items-center justify-center text-lg md:text-xl overflow-hidden flex-shrink-0"
                 >
                   {item.image ? (
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                  ) : (
-                    "🏅"
-                  )}
+                  ) : "🏅"}
                 </div>
               ))}
               {order.items.length > 4 && (
-                <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xs text-gray-500 flex-shrink-0">
+                <div className="w-11 h-11 md:w-12 md:h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xs text-gray-500 flex-shrink-0">
                   +{order.items.length - 4}
                 </div>
               )}

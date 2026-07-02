@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import useProductStore from "../store/productStore.js";
 import useAuthStore from "../store/authStore.js";
 import useCartStore from "../store/cartStore.js";
-
 import axiosInstance from "../api/axios.js";
 import toast from "react-hot-toast";
 
@@ -40,12 +39,8 @@ const ProductDetail = () => {
   }, [id]);
 
   const handleQuantityChange = (type) => {
-    if (type === "inc" && quantity < product.stock) {
-      setQuantity((prev) => prev + 1);
-    }
-    if (type === "dec" && quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
+    if (type === "inc" && quantity < product.stock) setQuantity((prev) => prev + 1);
+    if (type === "dec" && quantity > 1) setQuantity((prev) => prev - 1);
   };
 
   const handleSubmitReview = async (e) => {
@@ -101,23 +96,21 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
       {/* Breadcrumb */}
-      <div className="text-xs text-gray-400 mb-5 flex items-center gap-1">
+      <div className="text-xs text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
         <span className="cursor-pointer hover:text-orange-500" onClick={() => navigate("/")}>Home</span>
         <span>/</span>
         <span className="cursor-pointer hover:text-orange-500" onClick={() => navigate("/products")}>Products</span>
         <span>/</span>
-        <span className="cursor-pointer hover:text-orange-500" onClick={() => { navigate("/products"); }}>{product.category}</span>
-        <span>/</span>
-        <span className="text-gray-600">{product.name}</span>
+        <span className="text-gray-600 truncate max-w-[150px]">{product.name}</span>
       </div>
 
       {/* Product Top */}
-      <div className="grid grid-cols-2 gap-10 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-8 md:mb-10">
         {/* Images */}
         <div>
-          <div className="h-72 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mb-3 border border-gray-200 overflow-hidden">
+          <div className="h-56 sm:h-64 md:h-72 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mb-3 border border-gray-200 overflow-hidden">
             {product.images?.length > 0 ? (
               <img
                 src={product.images[selectedImage]}
@@ -125,16 +118,16 @@ const ProductDetail = () => {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <span className="text-8xl">{getCategoryIcon(product.category)}</span>
+              <span className="text-7xl md:text-8xl">{getCategoryIcon(product.category)}</span>
             )}
           </div>
           {product.images?.length > 1 && (
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               {product.images.map((img, i) => (
                 <div
                   key={i}
                   onClick={() => setSelectedImage(i)}
-                  className={`w-14 h-14 rounded-lg overflow-hidden border-2 cursor-pointer transition ${
+                  className={`w-12 h-12 md:w-14 md:h-14 rounded-lg overflow-hidden border-2 cursor-pointer transition ${
                     selectedImage === i ? "border-orange-500" : "border-gray-200"
                   }`}
                 >
@@ -147,29 +140,20 @@ const ProductDetail = () => {
 
         {/* Info */}
         <div>
-          <p className="text-xs text-orange-500 uppercase tracking-wide mb-1">
-            {product.category}
-          </p>
-          <h1 className="text-2xl font-bold text-gray-800 mb-3">{product.name}</h1>
+          <p className="text-xs text-orange-500 uppercase tracking-wide mb-1">{product.category}</p>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">{product.name}</h1>
 
-          {/* Rating */}
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-yellow-400 text-sm">
-              {"⭐".repeat(Math.round(product.ratings))}
-            </span>
-            <span className="text-sm font-medium text-gray-700">
-              {product.ratings.toFixed(1)}
-            </span>
+            <span className="text-yellow-400 text-sm">{"⭐".repeat(Math.round(product.ratings))}</span>
+            <span className="text-sm font-medium text-gray-700">{product.ratings.toFixed(1)}</span>
             <span className="text-xs text-gray-400">({product.numReviews} reviews)</span>
           </div>
 
-          {/* Price */}
-          <p className="text-3xl font-bold text-gray-900 mb-1">
+          <p className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
             ₹{product.price.toLocaleString()}
           </p>
           <p className="text-xs text-gray-400 mb-4">Inclusive of all taxes</p>
 
-          {/* Stock */}
           {product.stock > 0 ? (
             <span className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-xs px-3 py-1.5 rounded-full mb-4">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
@@ -182,7 +166,6 @@ const ProductDetail = () => {
             </span>
           )}
 
-          {/* Quantity */}
           {product.stock > 0 && (
             <div className="flex items-center gap-3 mb-4">
               <span className="text-sm text-gray-600">Quantity</span>
@@ -206,14 +189,13 @@ const ProductDetail = () => {
             </div>
           )}
 
-          {/* Actions */}
           <div className="flex gap-3 mb-5">
             {product.stock > 0 ? (
-                 <button
-            onClick={() => addToCart(product._id, quantity)}
-            className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2.5 rounded-lg transition text-sm"
-            >
-              🛒 Add to Cart
+              <button
+                onClick={() => addToCart(product._id, quantity)}
+                className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-2.5 rounded-lg transition text-sm"
+              >
+                🛒 Add to Cart
               </button>
             ) : (
               <button
@@ -228,7 +210,6 @@ const ProductDetail = () => {
             </button>
           </div>
 
-          {/* Description */}
           <div className="border-t border-gray-100 pt-4">
             <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
           </div>
@@ -236,26 +217,22 @@ const ProductDetail = () => {
       </div>
 
       {/* Reviews Section */}
-      <div className="border-t border-gray-200 pt-8">
-        <h2 className="text-lg font-semibold text-gray-800 mb-5">Customer Reviews</h2>
+      <div className="border-t border-gray-200 pt-6 md:pt-8">
+        <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-5">Customer Reviews</h2>
 
-        {/* Rating Summary */}
         {product.reviews?.length > 0 && (
-          <div className="flex items-center gap-10 bg-white border border-gray-200 rounded-xl p-5 mb-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-white border border-gray-200 rounded-xl p-4 md:p-5 mb-6">
             <div className="text-center">
               <div className="text-4xl font-bold text-gray-800">{product.ratings.toFixed(1)}</div>
               <div className="text-yellow-400 text-lg mt-1">{"⭐".repeat(Math.round(product.ratings))}</div>
               <div className="text-xs text-gray-400 mt-1">{product.numReviews} reviews</div>
             </div>
-            <div className="flex-1">
+            <div className="flex-1 w-full">
               {getRatingBars().map(({ star, count, percentage }) => (
                 <div key={star} className="flex items-center gap-2 mb-1.5">
                   <span className="text-xs text-gray-500 w-8">{star} ⭐</span>
                   <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-yellow-400 rounded-full"
-                      style={{ width: `${percentage}%` }}
-                    ></div>
+                    <div className="h-full bg-yellow-400 rounded-full" style={{ width: `${percentage}%` }}></div>
                   </div>
                   <span className="text-xs text-gray-400 w-4">{count}</span>
                 </div>
@@ -264,9 +241,8 @@ const ProductDetail = () => {
           </div>
         )}
 
-        {/* Review Cards */}
         {product.reviews?.length > 0 ? (
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             {product.reviews.map((review) => (
               <div key={review._id} className="bg-white border border-gray-200 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-2">
@@ -299,10 +275,9 @@ const ProductDetail = () => {
         )}
 
         {/* Add Review Form */}
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="bg-white border border-gray-200 rounded-xl p-4 md:p-5">
           <h3 className="text-sm font-semibold text-gray-800 mb-4">Write a Review</h3>
           <form onSubmit={handleSubmitReview}>
-            {/* Star Selector */}
             <div className="flex gap-1 mb-4">
               {[1, 2, 3, 4, 5].map((star) => (
                 <span
@@ -328,7 +303,7 @@ const ProductDetail = () => {
             <button
               type="submit"
               disabled={submittingReview}
-              className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-5 py-2 rounded-lg transition disabled:opacity-50"
+              className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-5 py-2 rounded-lg transition disabled:opacity-50"
             >
               {submittingReview ? "Submitting..." : "Submit Review"}
             </button>

@@ -19,8 +19,8 @@ const AdminLayout = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-950">
-      {/* Sidebar */}
-      <div className="w-56 flex-shrink-0 bg-gray-900 border-r border-gray-800 flex flex-col sticky top-0 h-screen">
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex w-56 flex-shrink-0 bg-gray-900 border-r border-gray-800 flex-col sticky top-0 h-screen">
         {/* Logo */}
         <div className="p-5 border-b border-gray-800">
           <div className="flex items-center gap-2">
@@ -84,8 +84,48 @@ const AdminLayout = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto pb-16 md:pb-0">
+        {/* Mobile Top Bar */}
+        <div className="md:hidden flex items-center justify-between px-4 py-3 bg-gray-900 border-b border-gray-800 sticky top-0 z-10">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-orange-600 rounded-lg flex items-center justify-center text-sm">🏆</div>
+            <p className="text-white text-sm font-semibold">Admin Panel</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <img src={user?.avatar} alt={user?.name} className="w-7 h-7 rounded-full border border-orange-500" />
+            <button onClick={() => navigate("/")} className="text-xs text-gray-400 bg-gray-800 px-2 py-1 rounded-lg">
+              🏪 Store
+            </button>
+          </div>
+        </div>
+
         <Outlet />
+      </div>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 flex z-50">
+        {navItems.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            end={item.end}
+            className={({ isActive }) =>
+              `flex-1 flex flex-col items-center justify-center py-2.5 gap-1 text-xs transition ${
+                isActive ? "text-orange-500" : "text-gray-500"
+              }`
+            }
+          >
+            <span className="text-lg">{item.icon}</span>
+            <span className="text-xs">{item.label}</span>
+          </NavLink>
+        ))}
+        <button
+          onClick={handleLogout}
+          className="flex-1 flex flex-col items-center justify-center py-2.5 gap-1 text-xs text-red-400"
+        >
+          <span className="text-lg">🚪</span>
+          <span className="text-xs">Logout</span>
+        </button>
       </div>
     </div>
   );

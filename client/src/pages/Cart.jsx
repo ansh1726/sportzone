@@ -40,16 +40,14 @@ const Cart = () => {
 
   if (!cart?.items?.length) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white border border-gray-200 rounded-xl p-12 text-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 md:p-12 text-center w-full max-w-sm">
           <div className="text-5xl mb-4">🛒</div>
           <p className="text-lg font-semibold text-gray-800 mb-2">Your cart is empty</p>
-          <p className="text-sm text-gray-400 mb-6">
-            Looks like you haven't added anything yet
-          </p>
+          <p className="text-sm text-gray-400 mb-6">Looks like you haven't added anything yet</p>
           <button
             onClick={() => navigate("/products")}
-            className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition"
+            className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition w-full sm:w-auto"
           >
             Shop Now
           </button>
@@ -59,74 +57,65 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-xl font-bold text-gray-800 mb-6">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+      <h1 className="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6">
         My Cart{" "}
         <span className="text-sm font-normal text-gray-400">
           ({cart.items.length} items)
         </span>
       </h1>
 
-      <div className="grid grid-cols-[1fr_320px] gap-6">
+      <div className="flex flex-col lg:grid lg:grid-cols-[1fr_320px] gap-4 md:gap-6">
         {/* Cart Items */}
         <div className="flex flex-col gap-3">
           {cart.items.map((item) => (
             <div
               key={item.product}
-              className="bg-white border border-gray-200 rounded-xl p-4 flex gap-4 items-center"
+              className="bg-white border border-gray-200 rounded-xl p-3 md:p-4 flex gap-3 md:gap-4 items-center"
             >
               {/* Image */}
-              <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
                 {item.image ? (
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                 ) : (
-                  <span className="text-3xl">
+                  <span className="text-2xl md:text-3xl">
                     {getCategoryIcon(item.product?.category)}
                   </span>
                 )}
               </div>
 
               {/* Info */}
-              <div className="flex-1">
-                <p className="text-xs text-orange-500 uppercase tracking-wide mb-1">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-orange-500 uppercase tracking-wide mb-0.5">
                   {item.product?.category}
                 </p>
-                <p className="text-sm font-medium text-gray-800 mb-1">{item.name}</p>
+                <p className="text-sm font-medium text-gray-800 mb-1 truncate">{item.name}</p>
                 <p className="text-xs text-gray-400">₹{item.price.toLocaleString()} per item</p>
               </div>
 
               {/* Right side */}
-              <div className="flex flex-col items-end gap-2">
-                {/* Quantity */}
+              <div className="flex flex-col items-end gap-2 flex-shrink-0">
                 <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
                   <button
                     onClick={() => updateItem(item.product._id || item.product, item.quantity - 1)}
                     disabled={item.quantity === 1}
-                    className="w-8 h-8 bg-gray-50 hover:bg-gray-100 text-gray-700 flex items-center justify-center transition disabled:opacity-40"
+                    className="w-7 h-7 md:w-8 md:h-8 bg-gray-50 hover:bg-gray-100 text-gray-700 flex items-center justify-center transition disabled:opacity-40"
                   >
                     −
                   </button>
-                  <span className="w-9 h-8 flex items-center justify-center text-sm font-medium text-gray-800 border-x border-gray-200">
+                  <span className="w-8 h-7 md:h-8 flex items-center justify-center text-sm font-medium text-gray-800 border-x border-gray-200">
                     {item.quantity}
                   </span>
                   <button
                     onClick={() => updateItem(item.product._id || item.product, item.quantity + 1)}
-                    className="w-8 h-8 bg-gray-50 hover:bg-gray-100 text-gray-700 flex items-center justify-center transition"
+                    className="w-7 h-7 md:w-8 md:h-8 bg-gray-50 hover:bg-gray-100 text-gray-700 flex items-center justify-center transition"
                   >
                     +
                   </button>
                 </div>
-
-                {/* Item Total */}
                 <p className="text-sm font-semibold text-gray-800">
                   ₹{(item.price * item.quantity).toLocaleString()}
                 </p>
-
-                {/* Remove */}
                 <button
                   onClick={() => removeItem(item.product._id || item.product)}
                   className="text-xs text-red-400 hover:text-red-600 transition"
@@ -140,7 +129,7 @@ const Cart = () => {
 
         {/* Order Summary */}
         <div>
-          <div className="bg-white border border-gray-200 rounded-xl p-5 sticky top-20">
+          <div className="bg-white border border-gray-200 rounded-xl p-4 md:p-5 lg:sticky lg:top-20">
             <h2 className="text-sm font-semibold text-gray-800 mb-4">Order Summary</h2>
 
             <div className="flex justify-between text-sm text-gray-500 mb-2">

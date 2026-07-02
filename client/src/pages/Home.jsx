@@ -30,43 +30,43 @@ const Home = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
       <div
-        className="px-8 py-16 flex items-center justify-between gap-8"
+        className="px-4 md:px-8 py-10 md:py-16 flex flex-col md:flex-row items-center justify-between gap-6"
         style={{
           background: "linear-gradient(135deg, #1a1a1a 0%, #2d1a0a 50%, #1a1a1a 100%)",
         }}
       >
-        <div className="flex-1">
+        <div className="flex-1 text-center md:text-left">
           <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs px-3 py-1.5 rounded-full mb-4">
             🔥 New arrivals this week
           </div>
-          <h1 className="text-4xl font-bold text-white leading-tight mb-3">
+          <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-3">
             Gear Up For <br />
             <span className="text-orange-500">Your Game</span>
           </h1>
           <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-            Premium sports equipment for every athlete. <br />
+            Premium sports equipment for every athlete. <br className="hidden md:block" />
             From cricket to football, we've got you covered.
           </p>
-          <div className="flex gap-3">
-          <button
-      onClick={() => navigate("/products")}
-      className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition"
-       >
-       Shop Now
-          </button>
+          <div className="flex gap-3 justify-center md:justify-start">
             <button
-                onClick={() => {
-                 document.getElementById("categories").scrollIntoView({ behavior: "smooth" });
-                    }}
-                className="bg-transparent border border-gray-500 text-white hover:border-gray-300 text-sm px-6 py-2.5 rounded-lg transition"
-                    >
-                         View Categories
-                        </button>
+              onClick={() => navigate("/products")}
+              className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition"
+            >
+              Shop Now
+            </button>
+            <button
+              onClick={() => {
+                document.getElementById("categories").scrollIntoView({ behavior: "smooth" });
+              }}
+              className="bg-transparent border border-gray-500 text-white hover:border-gray-300 text-sm px-5 py-2.5 rounded-lg transition"
+            >
+              View Categories
+            </button>
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="flex gap-4 flex-shrink-0">
+        {/* Stats — hidden on mobile */}
+        <div className="hidden md:flex gap-4 flex-shrink-0">
           {[
             { num: "500+", label: "Products" },
             { num: "50+", label: "Brands" },
@@ -81,41 +81,49 @@ const Home = () => {
             </div>
           ))}
         </div>
+
+        {/* Stats — mobile horizontal strip */}
+        <div className="flex md:hidden gap-4 justify-center w-full">
+          {[
+            { num: "500+", label: "Products" },
+            { num: "50+", label: "Brands" },
+            { num: "10k+", label: "Customers" },
+          ].map((stat) => (
+            <div key={stat.label} className="text-center">
+              <div className="text-lg font-bold text-orange-500">{stat.num}</div>
+              <div className="text-xs text-gray-400">{stat.label}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Categories */}
-      <div id="categories" className="px-8 py-10">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-gray-800">Shop by Category</h2>
-          <button
-            onClick={() => navigate("/products")}
-            className="text-sm text-orange-500 hover:underline"
-          >
+      <div id="categories" className="px-4 md:px-8 py-8 md:py-10">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-base md:text-lg font-semibold text-gray-800">Shop by Category</h2>
+          <button onClick={() => navigate("/products")} className="text-sm text-orange-500 hover:underline">
             View all →
           </button>
         </div>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
           {categories.map((cat) => (
             <div
               key={cat.name}
               onClick={() => handleCategoryClick(cat.name)}
-              className="bg-white border border-gray-200 rounded-xl p-4 text-center cursor-pointer hover:border-orange-400 hover:shadow-md transition"
+              className="bg-white border border-gray-200 rounded-xl p-3 md:p-4 text-center cursor-pointer hover:border-orange-400 hover:shadow-md transition"
             >
-              <div className="text-3xl mb-2">{cat.icon}</div>
-              <div className="text-sm font-medium text-gray-800">{cat.name}</div>
+              <div className="text-2xl md:text-3xl mb-2">{cat.icon}</div>
+              <div className="text-xs md:text-sm font-medium text-gray-800">{cat.name}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Featured Products */}
-      <div className="px-8 pb-10">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-gray-800">Featured Products</h2>
-          <button
-            onClick={() => navigate("/products")}
-            className="text-sm text-orange-500 hover:underline"
-          >
+      <div className="px-4 md:px-8 pb-10">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-base md:text-lg font-semibold text-gray-800">Featured Products</h2>
+          <button onClick={() => navigate("/products")} className="text-sm text-orange-500 hover:underline">
             View all →
           </button>
         </div>
@@ -130,17 +138,27 @@ const Home = () => {
             <p>No featured products yet. Add some from the admin panel!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {products.map((product) => (
               <div
                 key={product._id}
                 onClick={() => navigate(`/products/${product._id}`)}
                 className="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer hover:shadow-md hover:border-orange-300 transition"
               >
-                <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-5xl">
-                  {categories.find((c) => c.name === product.category)?.icon || "🏅"}
+                <div className="h-36 md:h-40 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                  {product.images?.length > 0 ? (
+                    <img
+                      src={product.images[0]}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-5xl">
+                      {categories.find((c) => c.name === product.category)?.icon || "🏅"}
+                    </span>
+                  )}
                 </div>
-                <div className="p-4">
+                <div className="p-3 md:p-4">
                   <p className="text-xs text-orange-500 uppercase tracking-wide mb-1">
                     {product.category}
                   </p>
@@ -153,9 +171,7 @@ const Home = () => {
                       ₹{product.price.toLocaleString()}
                     </span>
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
+                      onClick={(e) => e.stopPropagation()}
                       className="bg-orange-500 hover:bg-orange-600 text-white text-xs px-3 py-1.5 rounded-lg transition"
                     >
                       Add to Cart
